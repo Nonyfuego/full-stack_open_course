@@ -1,49 +1,65 @@
 import './App.css';
 
-const course = 'Half Stack application development'
-const part1 = 'Fundamentals of React'
-const exercises1 = 10
-const part2 = 'Using props to pass data'
-const exercises2 = 7
-const part3 = 'State of a component'
-const exercises3 = 14
 
-const Header = (props) => { 
+const Header = ({course}) => <h1>{course}</h1>
+
+const Part = ({part, exercise}) => <p>{part} {exercise}</p>
+
+const Total = ({parts}) => {
+  var total = 0
+  parts.forEach(part => {
+    total += part.exercise
+  });
   return (
-    <h1>{props.course}</h1>
+    <p>Number of exercises: {total}</p>
   )
+
 }
 
-const Part = (props) => {
-  return (
-      <p>{props.part} {props.exercise}</p>
-  )
-}
-
-const Total = (props) => {
-  return (
-    <p>Number of exercises: {props.total}</p>
-  )
-}
-
-const Content = () => {
-
+const Content = ({parts}) => {
   return (
     <div>
-      <Part part={part1} exercise={exercises1}/>
-      <Part part={part2} exercise={exercises2}/>
-      <Part part={part3} exercise={exercises3}/>
+      <Part 
+      part={parts[0].name}
+      exercise={parts[0].exercise}
+      />
+      <Part 
+      part={parts[1].name}
+      exercise={parts[1].exercise}
+      />
+      <Part
+      part={parts[2].name}
+      exercise={parts[2].exercise}
+      />
     </div>
   )
 }
 
-
 const App = () => {
+    const course = {
+      name: 'Half Stack application development',
+      parts: [
+        {
+          name: 'Fundamentals of React',
+          exercise: 10
+        },
+        {
+          name: 'Using props to pass data',
+          exercise: 7
+        },
+        {
+          name: 'State of a component',
+          exercise: 14
+        }
+      ]
+
+    }
+
      return (
     <div className="App">
-      <Header course={course}/>
-      <Content />
-      <Total total={exercises1 + exercises2 + exercises3}/>
+      <Header course={course.name}/>
+      <Content parts={course.parts}/>
+      <Total parts={course.parts}/>
     </div>
   );
 }
