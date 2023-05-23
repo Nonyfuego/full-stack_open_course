@@ -8,6 +8,10 @@ function App() {
 
   const AddContact = (event) => {
     event.preventDefault()
+    if (contacts.some(contact => contact.name === newContact)) {
+      alert(`${newContact} is already added to Phonebook`)
+      return
+    }
     let contact = {
       name: newContact,
       id: contacts.length + 1
@@ -18,7 +22,6 @@ function App() {
   }
 
   const updateValue = (event) => {
-    console.log(event.target.value)
     setNewContact(event.target.value)
   }
 
