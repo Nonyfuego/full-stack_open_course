@@ -5,7 +5,11 @@ const ContactDisplay = ({contacts}) => {
         <table>
             <tbody>
                 {contacts.map(contact => 
-                     <Contact key={contact.id} name={contact.name} />
+                     <Contact 
+                     key={contact.id} 
+                     name={contact.name} 
+                     phone={contact.phoneNum} 
+                     />
                 )}
             </tbody>
         </table>

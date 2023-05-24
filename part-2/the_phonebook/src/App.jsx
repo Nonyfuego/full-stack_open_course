@@ -4,32 +4,51 @@ import Input from './components/Input'
 
 function App() {
   const [contacts, setContacts] = useState([])
-  const [newContact, setNewContact] = useState("")
+  const [newContact, setNewContact] = useState({
+    name: "",
+    phoneNum: ""
+  })
+
 
   const AddContact = (event) => {
     event.preventDefault()
-    if (contacts.some(contact => contact.name === newContact)) {
-      alert(`${newContact} is already added to Phonebook`)
+    if (contacts.some(contact => contact.name === newContact.name)) {
+      alert(`${newContact.name} is already added to Phonebook`)
       return
     }
     let contact = {
-      name: newContact,
+      name: newContact.name,
+      phoneNum: newContact.phoneNum,
       id: contacts.length + 1
     }
     let contactsCopy = [...contacts, contact]
     setContacts(contactsCopy) 
-    setNewContact("")
+    setNewContact({
+      name: "",
+      phoneNum: ""
+    })
   }
 
-  const updateValue = (event) => {
-    setNewContact(event.target.value)
+  const updateName = (event) => {
+    setNewContact({
+      ...newContact,
+      name: event.target.value
+    })
+  }
+
+  const updatePhoneNum = (event) => {
+    setNewContact({
+      ...newContact,
+      phoneNum: event.target.value
+    })
   }
 
   return (
     <div>
       <h1>PhoneBook</h1>
       <form>
-        <Input value={newContact} placeHolder='Name' handleChanges={updateValue} />
+        <Input value={newContact.name} placeHolder='Name' handleChanges={updateName} />
+        <Input value={newContact.phoneNum} placeHolder='Phone Number' handleChanges={updatePhoneNum} />
         <button type='submit' onClick={AddContact}>Add</button>
       </form>
       <h1>Numbers</h1>
