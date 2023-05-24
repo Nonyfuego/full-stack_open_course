@@ -1,18 +1,20 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import ContactDisplay from './components/ContactDisplay'
 import Input from './components/Input'
 import ContactForm from './components/ContactForm'
+import axios from 'axios'
 
 function App() {
+  //////////////////// All defined states //////////////////
   const [contacts, setContacts] = useState([])
   const [newContact, setNewContact] = useState({
     name: "",
-    phoneNum: ""
+    number: ""
   })
   const [showfiltered, setShowFiltered] = useState(false)
   const [filtered, setFiltered] = useState([])
 
-  //////////////////////////////////////////////////////////
+  //////////////////// Callback functions //////////////////////
   const AddContact = (event) => {
     event.preventDefault()
     // prevent adding a contact name that already exist
@@ -23,7 +25,7 @@ function App() {
     // new contact object to be added to contacts
     let contact = {
       name: newContact.name,
-      phoneNum: newContact.phoneNum,
+      number: newContact.number,
       id: contacts.length + 1
     }
     // add the new contact object to contacts by concantation
@@ -32,7 +34,7 @@ function App() {
     setContacts(contactsCopy) 
     setNewContact({
       name: "",
-      phoneNum: ""
+      number: ""
     })
   }
 
@@ -46,7 +48,7 @@ function App() {
   const updatePhoneNum = (event) => {
     setNewContact({
       ...newContact,
-      phoneNum: event.target.value
+      number: event.target.value
     })
   }
 
@@ -55,19 +57,37 @@ function App() {
     if (searchValue) {
       // filter contacts that match the text in the search field
       setShowFiltered(true)
-      let filteredResults = contacts.filter(contact => contact.name.includes(searchValue))
-      console.log(filteredResults)
-      setFiltered(filteredResults)
-        return
+      let filteredResults = contacts.filter(contact => {
+        let contactName = contact.name.toLowerCase()
+        let searchString = searchValue.toLowerCase()
+        return contactName.includes(searchString)
       }
-      setFiltered([])
-      setShowFiltered(false)
+      )
+      //console.log(filteredResults)
+      setFiltered(filteredResults)
+      return
     }
+    setFiltered([])
+    setShowFiltered(false)
+  }
+
+  //////////////////// Effect Hooks ///////////////////
+   useEffect(() => {
+      axios
+        .get("http://localhost:3001/persons")
+        .then((response) => {
+          console.log(response.data)
+          setContacts(response.data)
+        })
+        .catch((err) => {
+          console.log(err.message)
+        })
+   }, []) 
 
   return (
     <div>
       <h1>PhoneBook</h1>
-      <div>
+      <div className='search-field'>
         <Input 
         placeHolder="Search"
         handleChanges={filterContacts}
@@ -76,7 +96,7 @@ function App() {
       <h1>Add New</h1>
       <ContactForm 
       name={newContact.name}
-      phoneNum={newContact.phoneNum}
+      phoneNum={newContact.number}
       handleNameChange={updateName}
       handlePhoneNumChange={updatePhoneNum}
       handleBtnClick={AddContact}

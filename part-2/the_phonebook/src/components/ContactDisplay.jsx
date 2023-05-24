@@ -8,7 +8,7 @@ const ContactDisplay = ({contacts}) => {
                      <Contact 
                      key={contact.id} 
                      name={contact.name} 
-                     phone={contact.phoneNum} 
+                     number={contact.number} 
                      />
                 )}
             </tbody>

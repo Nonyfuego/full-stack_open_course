@@ -1,12 +1,12 @@
 
-const Contact = ({name, phone}) => {
+const Contact = ({name, number}) => {
     return (
         <tr>
             <td>
                 {name}
             </td>
             <td>
-                {phone}
+                {number}
             </td>
         </tr>
     )
