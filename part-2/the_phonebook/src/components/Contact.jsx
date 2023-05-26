@@ -1,5 +1,5 @@
 
-const Contact = ({name, number}) => {
+const Contact = ({name, number, id, clickHandler}) => {
     return (
         <tr>
             <td>
@@ -7,6 +7,9 @@ const Contact = ({name, number}) => {
             </td>
             <td>
                 {number}
+            </td>
+            <td>
+                <button onClick={() => clickHandler(id)}>delete</button>
             </td>
         </tr>
     )

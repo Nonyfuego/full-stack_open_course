@@ -2,10 +2,10 @@ import { useState, useEffect } from 'react'
 import ContactDisplay from './components/ContactDisplay'
 import Input from './components/Input'
 import ContactForm from './components/ContactForm'
-import axios from 'axios'
+import personService from './services/personService'
 
 function App() {
-  //////////////////// All defined states //////////////////
+  //////////////////// react state hooks //////////////////
   const [contacts, setContacts] = useState([])
   const [newContact, setNewContact] = useState({
     name: "",
@@ -15,29 +15,79 @@ function App() {
   const [filtered, setFiltered] = useState([])
 
   //////////////////// Callback functions //////////////////////
-  const AddContact = (event) => {
+  // Event handler
+  const addOrReplaceContact = (event) => {
     event.preventDefault()
-    // prevent adding a contact name that already exist
-    if (contacts.some(contact => contact.name === newContact.name)) {
-      alert(`${newContact.name} is already added to Phonebook`)
-      return
+    // check if new contact name already exist in contacts
+    if (contacts.some(_contact => _contact.name === newContact.name)) {
+      let promptMsg = `${newContact.name} is already added to Phonebook, replace old number with new one?`
+      // prompt user if existing contact should be updated
+      // with the new one
+      if (window.confirm(promptMsg)) {
+        // replace existing contact with new one
+        replaceContact(newContact)
+        
+      } else return // if user doesn't want to update contact
+      
+    } else {
+      // add new contact if new contact name does not already exist
+      addContact(newContact)
     }
-    // new contact object to be added to contacts
-    let contact = {
-      name: newContact.name,
-      number: newContact.number,
-      id: contacts.length + 1
-    }
-    // add the new contact object to contacts by concantation
-    // with spread syntax
-    let contactsCopy = [...contacts, contact]
-    setContacts(contactsCopy) 
-    setNewContact({
-      name: "",
-      number: ""
-    })
+ }
+
+  // (addorReplaceContact) helper function
+  const addContact = (data) => {
+    // send a POST request to server
+    console.log("data: ", data)
+    personService
+      .createPerson(data)
+      .then(_newContact => {
+        let _updatedContacts = [...contacts, _newContact]
+        // update reactive states
+        setContacts(_updatedContacts)
+        setNewContact({
+          name: "",
+          number: ""
+        })
+      })
+      .catch(err => console.log("creation err: ",err.message)) 
   }
 
+  // (addorReplaceContact) helper function
+  const replaceContact = (updatedData) => {
+    let existingContact = contacts.find(_contact => _contact.name === updatedData.name)
+    // send a PUT request to update contact on server
+    personService
+      .updatePerson(existingContact.id, updatedData)
+      .then(_updatedContact => {
+        let updatedContacts = contacts.map(_contact => 
+          _contact.id !== _updatedContact.id? _contact : _updatedContact
+        )
+        // update reactive states
+        setContacts(updatedContacts)
+        setNewContact({
+          name: "",
+          number: ""
+        })
+      })
+      .catch(err => console.log("update err: ",err.message))
+  }
+
+ // Event handler
+ const deleteContact = (id) => {
+  // ask for confirmation before deleting contact
+  let contact = contacts.find(_contact => _contact.id === id)
+  // prompt user if contact should be deleted
+  if (window.confirm(`Delete ${contact.name}?`)) {
+    personService
+      .deletePerson(id)
+      .catch(err => console.log(err))
+    let updatedContacts = contacts.filter(contact => contact.id !== id)
+    setContacts(updatedContacts)
+  }
+ }
+  
+  // (Event Handler) update name input field
   const updateName = (event) => {
     setNewContact({
       ...newContact,
@@ -45,17 +95,18 @@ function App() {
     })
   }
 
-  const updatePhoneNum = (event) => {
+  // (Event Handler) update number input field
+  const updateNumber = (event) => {
     setNewContact({
       ...newContact,
       number: event.target.value
     })
   }
 
-  const filterContacts = (event) => {
+  // (Event Handler) filter contacts with search input field
+  const searchFilter = (event) => {
     let searchValue = event.target.value
     if (searchValue) {
-      // filter contacts that match the text in the search field
       setShowFiltered(true)
       let filteredResults = contacts.filter(contact => {
         let contactName = contact.name.toLowerCase()
@@ -66,23 +117,20 @@ function App() {
       //console.log(filteredResults)
       setFiltered(filteredResults)
       return
+    }else {
+      setFiltered([])
+      setShowFiltered(false)
     }
-    setFiltered([])
-    setShowFiltered(false)
+
   }
 
-  //////////////////// Effect Hooks ///////////////////
+  //////////////////// react effect hooks ///////////////////
    useEffect(() => {
-      axios
-        .get("http://localhost:3001/persons")
-        .then((response) => {
-          console.log(response.data)
-          setContacts(response.data)
-        })
-        .catch((err) => {
-          console.log(err.message)
-        })
-   }, []) 
+    personService
+      .getAllPerson()
+      .then(persons => setContacts(persons))
+      .catch(err => console.log(err.message))
+   },[]) 
 
   return (
     <div>
@@ -90,7 +138,7 @@ function App() {
       <div className='search-field'>
         <Input 
         placeHolder="Search"
-        handleChanges={filterContacts}
+        handleChanges={searchFilter}
         />
       </div>
       <h1>Add New</h1>
@@ -98,11 +146,14 @@ function App() {
       name={newContact.name}
       phoneNum={newContact.number}
       handleNameChange={updateName}
-      handlePhoneNumChange={updatePhoneNum}
-      handleBtnClick={AddContact}
+      handlePhoneNumChange={updateNumber}
+      handleBtnClick={addOrReplaceContact}
       />
       <h1>Numbers</h1>
-      <ContactDisplay contacts={showfiltered? filtered : contacts} />
+      <ContactDisplay 
+      contacts={showfiltered? filtered : contacts}
+      handleDelete={deleteContact}
+      />
     </div>
   )
 }
