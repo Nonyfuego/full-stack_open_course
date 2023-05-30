@@ -1,4 +1,4 @@
-const CountryTab = ({country}) => {
+const CountryTab = ({country, handleClick}) => {
     //console.log(countryName)
     const imageStyle = {
         borderRadius: "50%",
@@ -6,7 +6,7 @@ const CountryTab = ({country}) => {
     }
     return (
         <tr>
-            <td style={{paddingRight: 10}}>
+            <td>
                 <img 
                 src={country.flags.svg} 
                 alt={country.flags.alt} 
@@ -17,6 +17,9 @@ const CountryTab = ({country}) => {
             </td>
             <td>
                 {country.name.common}
+            </td>
+            <td>
+                <button onClick={() => handleClick(country)}>show</button>
             </td>
         </tr>
     )

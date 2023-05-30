@@ -1,6 +1,6 @@
 import CountryTab from "./CountryTab"
 
-const CountryList = ({countryArray}) => {
+const CountryList = ({countryArray, clickEvent}) => {
     return  (
         <table>
             <tbody>
@@ -8,6 +8,7 @@ const CountryList = ({countryArray}) => {
                     <CountryTab 
                     key={c.cca3} 
                     country={c}
+                    handleClick={clickEvent}
                     />
                 )}
             </tbody>

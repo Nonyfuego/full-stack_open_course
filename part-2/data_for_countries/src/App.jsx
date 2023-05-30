@@ -9,6 +9,7 @@ function App() {
   const [filteredCountries, setFilteredCountries] = useState([])
   const [InputValue, setInputValue] = useState("")
   const [notifciation, setNotification] = useState(null)
+  const [country, setCountry] = useState(null)
   //console.log(allCountries)
   
   //////////// Effect Hooks //////////////
@@ -52,13 +53,27 @@ function App() {
 
  
   /////////////// Event Handlers /////////////////
-  const updateInputValue = (e) => setInputValue(e.target.value)
+  const updateInputValue = (e) => {
+    setInputValue(e.target.value)
+    setCountry(null)
+  }
+
+  const showCountryDetail = (country) => setCountry(country)
 
   return (
     <div>
-      <Input value={InputValue} handleChange={updateInputValue}/>
-      <p style={{color: "red"}}>{notifciation}</p>
-      <CountryView countries={filteredCountries}/>
+      <Input 
+      value={InputValue} 
+      handleChange={updateInputValue}
+      />
+      <p style={{color: "red"}}>
+        {notifciation}
+      </p>
+      <CountryView 
+      countries={filteredCountries}
+      country={country}
+      handleClick={showCountryDetail}
+      />
     </div>
   )
 }
