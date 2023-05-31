@@ -20,9 +20,27 @@ td {
   padding-right: 1rem;
 }
 
+input {
+  width: 25rem;
+  height: 2.3rem;
+  border: 1px solid rgb(186, 186, 186);
+  padding-left: 1rem;
+  font-size: 1rem;
+}
+
+table {
+  display: flex;
+  justify-content: center
+}
+
 #root {
   display: flex;
   justify-content: center;
   padding-top: 2rem;
 }
 
+.country-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

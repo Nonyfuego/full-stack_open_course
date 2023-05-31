@@ -27,9 +27,9 @@ function App() {
       setNotification(null)
       return
     }
-    //console.log(InputValue)
+    
     let filteredResult = filterCountries()
-    //console.log(filteredResult)
+
     if (filteredResult.length > 10) {
       setNotification("Too many match, specify another filter")
       setFilteredCountries([])
@@ -61,18 +61,18 @@ function App() {
   const showCountryDetail = (country) => setCountry(country)
 
   return (
-    <div>
+    <div className='container'>
       <Input 
-      value={InputValue} 
-      handleChange={updateInputValue}
+        value={InputValue} 
+        handleChange={updateInputValue}
       />
       <p style={{color: "red"}}>
         {notifciation}
       </p>
       <CountryView 
-      countries={filteredCountries}
-      country={country}
-      handleClick={showCountryDetail}
+        countries={filteredCountries}
+        country={country}
+        handleClick={showCountryDetail}
       />
     </div>
   )

@@ -5,8 +5,7 @@ const CountryView = ({countries, country, handleClick}) => {
 
     if (countries.length === 0) return null
 
-    if (countries.length === 1) 
-        return <CountryDetail country={countries[0]}/>
+    if (countries.length === 1) return <CountryDetail country={countries[0]}/>
 
     if (country) return <CountryDetail country={country}/>
     
