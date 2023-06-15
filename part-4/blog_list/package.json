@@ -1,0 +1,35 @@
+{
+  "name": "blog_list",
+  "version": "1.0.0",
+  "description": "An app users can save information of their favourite blogs ",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "build:ui": "rm -rf dist && cd ../full-stack_open_course/part-2/the_phonebook && npm run build && cp -r dist ../../../full-stack_open_back-end",
+    "deploy": "npm run build:ui && git add . && git commit -m 'add dist folder' && git push",
+    "dev": "nodemon index.js",
+    "debug": "nodemon --inspect index.js",
+    "lint": "eslint --fix .",
+    "test": "jest --verbose"
+  },
+  "author": "Nony Fuego",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.1.4",
+    "express": "^4.18.2",
+    "lodash": "^4.17.21",
+    "mongoose": "^7.2.2",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.42.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.27.5",
+    "jest": "^29.5.0",
+    "nodemon": "^2.0.22"
+  },
+  "jest": {
+    "testEnvironment": "node"
+  }
+}

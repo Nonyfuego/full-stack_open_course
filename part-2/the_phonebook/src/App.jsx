@@ -23,9 +23,9 @@ function App() {
   const submitContactForm = (event) => {
     event.preventDefault()
     // prevent user from submitting empty form
-    if (!newContact.name || !newContact.number) {
+    /*if (!newContact.name || !newContact.number) {
       return
-    }
+    }*/
     // check if new contact name already exist in contacts
     if (contacts.some(_contact => _contact.name === newContact.name)) {
       let promptMsg = `${newContact.name} is already added to Phonebook, replace old number with new one?`
@@ -38,7 +38,7 @@ function App() {
       } else return // if user doesn't want to update contact
       
     } else {
-      // add new contact if new contact name does not already exist
+      // add contact if new contact name does not already exist
       addContact(newContact)
     }
  }
@@ -61,6 +61,10 @@ function App() {
 
       })
       .catch(err => {
+        if (err.response) {
+          setErrorMsg(err.response.data.error)
+          return
+        }
         setErrorMsg(err.message)
       })
       .finally(() => {
@@ -91,6 +95,10 @@ function App() {
         setSuccessMsg(`${_updatedContact.name}'s number has been updated`)
       })
       .catch(err => {
+        if (err.response) {
+          setErrorMsg(err.response.data.error)
+          return
+        }
         // notify user in case of 404 error
         if (err.code === "ERR_BAD_REQUEST") {
           setErrorMsg(`info of ${existingContact.name} has already been deleted from the server`)
@@ -109,7 +117,7 @@ function App() {
   }
 
 
- // Event handler
+ // (Event handler) delete button
  const deleteContact = (id) => {
   // ask for confirmation before deleting contact
   let contact = contacts.find(_contact => _contact.id === id)
@@ -187,7 +195,6 @@ function App() {
 
   //////////////////// react effect hooks ///////////////////
    useEffect(() => {
-    console.log("getting persons...")
     personService
       .getAllPerson()
       .then(persons => setContacts(persons))
@@ -197,34 +204,33 @@ function App() {
           setErrorMsg(null)
         },5000)
       })
-
    },[]) 
 
   return (
     <div>
       <h1>PhoneBook</h1>
       <Notification
-      successMsg={successMsg}
-      errorMsg={errorMsg}
+        successMsg={successMsg}
+        errorMsg={errorMsg}
       />
       <div className='search-field'>
         <Input 
-        placeHolder="Search"
-        handleChanges={searchFilter}
+          placeHolder="Search"
+          handleChanges={searchFilter}
         />
       </div>
       <h1>Add New</h1>
       <ContactForm 
-      name={newContact.name}
-      phoneNum={newContact.number}
-      handleNameChange={updateNameInput}
-      handlePhoneNumChange={updateNumberInput}
-      handleBtnClick={submitContactForm}
+        name={newContact.name}
+        phoneNum={newContact.number}
+        handleNameChange={updateNameInput}
+        handlePhoneNumChange={updateNumberInput}
+        handleBtnClick={submitContactForm}
       />
       <h1>Numbers</h1>
       <ContactDisplay 
-      contacts={showfiltered? filtered : contacts}
-      handleDelete={deleteContact}
+        contacts={showfiltered? filtered : contacts}
+        handleDelete={deleteContact}
       />
     </div>
   )

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseUrl = "http://localhost:3001/persons"
+const baseUrl = "/api/persons"
 
 const getAllPerson = () => {
     let request = axios.get(baseUrl)
@@ -18,8 +18,8 @@ const createPerson = data => {
         return response.data
     })
 }
-const deletePerson = id => axios.delete(`${baseUrl}/${id}`)
 
+const deletePerson = id => axios.delete(`${baseUrl}/${id}`)
 
 export default {
     getAllPerson,
