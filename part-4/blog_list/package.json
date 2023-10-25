@@ -1,23 +1,25 @@
 {
   "name": "blog_list",
   "version": "1.0.0",
-  "description": "An app users can save information of their favourite blogs ",
+  "description": "app for saving favourite blogs ",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "cross-env NODE_ENV=prod node index.js",
     "build:ui": "rm -rf dist && cd ../full-stack_open_course/part-2/the_phonebook && npm run build && cp -r dist ../../../full-stack_open_back-end",
     "deploy": "npm run build:ui && git add . && git commit -m 'add dist folder' && git push",
-    "dev": "nodemon index.js",
+    "dev": "cross-env NODE_ENV=dev nodemon index.js",
     "debug": "nodemon --inspect index.js",
     "lint": "eslint --fix .",
-    "test": "jest --verbose"
+    "test": "cross-env NODE_ENV=test jest --verbose --runInBand"
   },
   "author": "Nony Fuego",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
     "dotenv": "^16.1.4",
     "express": "^4.18.2",
+    "express-async-errors": "^3.1.1",
     "lodash": "^4.17.21",
     "mongoose": "^7.2.2",
     "morgan": "^1.10.0"
@@ -27,9 +29,11 @@
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.27.5",
     "jest": "^29.5.0",
-    "nodemon": "^2.0.22"
+    "nodemon": "^2.0.22",
+    "supertest": "^6.3.3"
   },
   "jest": {
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "globalTeardown": "./tests/tearDown.js"
   }
 }

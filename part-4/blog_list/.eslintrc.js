@@ -12,5 +12,6 @@ module.exports = {
   rules: {
     eqeqeq: 'error',
     'no-console': 'off',
+    'import/no-extraneous-dependencies': 'off',
   },
 };

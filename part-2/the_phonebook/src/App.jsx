@@ -180,8 +180,7 @@ function App() {
         let contactName = contact.name.toLowerCase()
         let searchString = searchValue.toLowerCase()
         return contactName.includes(searchString)
-      }
-      )
+      })
       //console.log(filteredResults)
       setFiltered(filteredResults)
       return

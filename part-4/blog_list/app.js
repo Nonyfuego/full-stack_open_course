@@ -1,19 +1,13 @@
-const db = require('mongoose');
 const express = require('express');
 const cors = require('cors');
-const config = require('./utils/config');
-const logger = require('./utils/logger');
+require('express-async-errors');
 const middleware = require('./utils/middleware');
 const blogsRouter = require('./controllers/blogs');
+const { connectDatabase } = require('./utils/helpers');
 
 const app = express();
 
-logger.info('connecting to database...');
-
-db.set('strictQuery', false);
-db.connect(config.MONGODB_URI)
-  .then(() => logger.info('connected to database...'))
-  .catch((err) => logger.error(err));
+connectDatabase();
 
 app.use(cors());
 app.use(express.json());
