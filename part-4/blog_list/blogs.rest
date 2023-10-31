@@ -1,13 +1,56 @@
 GET http://localhost:3001/api/blogs
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjY1M2NmNTQ5MWEyMTNhMDEyMDM2MmUxNCIsImlhdCI6MTY5ODc2MzI5MX0.O2xQPq8-CvmHFXLjvA0XAd_mm7FBszeYS0Rw-eHokrY
 
 ###
 
 POST http://localhost:3001/api/blogs
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjY1M2NmNTQ5MWEyMTNhMDEyMDM2MmUxNCIsImlhdCI6MTY5ODc2MzI5MX0.O2xQPq8-CvmHFXLjvA0XAd_mm7FBszeYS0Rw-eHokrY
 
 {
-  "title": "how to train a dragon",
-  "author": "kate prima",
-  "url": "https://kateprima.com",
+  "title": "how it all started",
+  "author": "dan hofmann",
+  "url": "https://hofamannfoundation.com",
+  "likes": 7
+}
+
+###
+
+PUT http://localhost:3001/api/blogs/65417471c4d401ec7169a6e6
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjY1M2NmNTQ5MWEyMTNhMDEyMDM2MmUxNCIsImlhdCI6MTY5ODc2MzI5MX0.O2xQPq8-CvmHFXLjvA0XAd_mm7FBszeYS0Rw-eHokrY
+
+{
   "likes": 3
+}
+
+###
+
+DELETE http://localhost:3001/api/blogs/6541490901d2a02d723b0692
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjY1M2NmNTQ5MWEyMTNhMDEyMDM2MmUxNCIsImlhdCI6MTY5ODc2MzI5MX0.O2xQPq8-CvmHFXLjvA0XAd_mm7FBszeYS0Rw-eHokrY
+
+
+###
+
+GET http://localhost:3001/api/users
+
+###
+
+POST http://localhost:3001/api/users
+Content-Type: application/json
+
+{
+  "username": "root",
+  "name": "root",
+  "password": "root"
+}
+
+####
+
+POST http://localhost:3001/api/login
+Content-Type: application/json
+
+{
+  "username": "root",
+  "password": "root"
 }

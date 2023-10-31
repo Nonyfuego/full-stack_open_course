@@ -1,6 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-param-reassign */
 const mongoose = require('mongoose');
+const autoPopulate = require('mongoose-autopopulate');
 
 const blogSchema = new mongoose.Schema({
   title: {
@@ -21,7 +22,19 @@ const blogSchema = new mongoose.Schema({
     },
     required: [true, 'url is required'],
   },
-  likes: Number,
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    autopopulate: {
+      maxDepth: 1,
+      select: ['username', 'name', 'id'],
+    },
+    required: [true, 'user is required'],
+  },
+  likes: {
+    type: Number,
+    default: 0,
+  },
 });
 
 blogSchema.set('toJSON', {
@@ -31,5 +44,7 @@ blogSchema.set('toJSON', {
     delete returnedObject.__v;
   },
 });
+
+blogSchema.plugin(autoPopulate);
 
 module.exports = mongoose.model('Blog', blogSchema);
