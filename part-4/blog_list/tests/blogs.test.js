@@ -4,9 +4,9 @@
 /* eslint-disable import/no-extraneous-dependencies */
 const superTest = require('supertest');
 const mongoose = require('mongoose');
-const app = require('../app');
-const Blog = require('../models/blog');
-const User = require('../models/user');
+const app = require('../src/app');
+const Blog = require('../src/models/blog');
+const User = require('../src/models/user');
 const helper = require('./testHelper');
 
 // use supertest to test the api calls/requests

@@ -2,7 +2,7 @@
   "name": "blog_list",
   "version": "1.0.0",
   "description": "app for saving favourite blogs ",
-  "main": "index.js",
+  "main": "./src/index.js",
   "scripts": {
     "start": "cross-env NODE_ENV=prod node index.js",
     "build:ui": "rm -rf dist && cd ../full-stack_open_course/part-2/the_phonebook && npm run build && cp -r dist ../../../full-stack_open_back-end",

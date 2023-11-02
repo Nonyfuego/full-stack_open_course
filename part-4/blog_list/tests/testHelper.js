@@ -1,5 +1,5 @@
 const bcrypt = require('bcrypt');
-const { getRandomUser } = require('../utils/helpers');
+const { getRandomUser } = require('../src/utils/helpers');
 
 const testUsers = [
   {

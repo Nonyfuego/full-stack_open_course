@@ -2,7 +2,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable no-param-reassign */
 const _ = require('lodash');
-const listHelper = require('../utils/listHelper');
+const listHelper = require('../src/utils/listHelper');
 
 const blogs = [
   {

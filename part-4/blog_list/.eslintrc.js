@@ -15,6 +15,6 @@ module.exports = {
     'import/no-extraneous-dependencies': 'off',
     'no-param-reassign': 'off',
     'no-underscore-dangle': 'off',
-    'prefer-destructuring': 'off'
+    'prefer-destructuring': 'off',
   },
 };
